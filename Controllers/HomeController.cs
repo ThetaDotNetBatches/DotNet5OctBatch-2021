@@ -33,5 +33,15 @@ namespace DotNet5OctBatch_2021.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult MyContact()
+        {
+            ViewBag.Name = "ASP Dot Net";
+            return View();
+        }
+        public IActionResult MyFirstPage()
+        {
+            return View();
+        }
     }
 }
