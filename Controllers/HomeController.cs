@@ -20,18 +20,19 @@ namespace DotNet5OctBatch_2021.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
+            Users oUser1 = new Users();
+            oUser1.Id = 1;
+            oUser1.Name = "ABC";
+            oUser1.Password = "TEST";
+            ViewBag.User1 = oUser1;
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            Users oUser2 = new Users();
+            oUser2.Id = 2;
+            oUser2.Name = "XYZ";
+            oUser2.Password = "123";
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ViewBag.OUser2 = oUser2;
+            return View();
         }
 
         public IActionResult MyContact()

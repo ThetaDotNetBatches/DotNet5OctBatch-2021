@@ -1,8 +1,27 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-}
+    Users OUser1 = ViewBag.User1;
+    Users Ouser2 = ViewBag.OUser2;
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+}
+<link href="~/css/site.css" rel="stylesheet" />
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<style>
+    a {
+        color: #0366d6;
+    }
+</style>
+<h1>Practice Page</h1>
+<h2>User 1</h2>
+<p>Id : @OUser1.Id</p>
+<p>Name: @OUser1.Name</p>
+<p>Password : @OUser1.Password</p>
+<hr />
+
+<h2>User 2</h2>
+<p>Id : @Ouser2.Id</p>
+<p>Name: @Ouser2.Name</p>
+<p>Passowrd: @Ouser2.Password</p>
+<p>Last Name: @Ouser2.LastName</p>
+
+<a href="#" class="MyButton" id="MyButton" style="color:white;"> Show All Users</a>
