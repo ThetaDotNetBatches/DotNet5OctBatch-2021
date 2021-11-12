@@ -1,0 +1,32 @@
+﻿@{
+    IList<Users> OlistUsers = ViewBag.UsersList;
+    OlistUsers = OlistUsers.OrderBy(o => o.Name).ToList();
+    var TotalUsers = OlistUsers.Count();
+
+    int counter = 0;
+    //Layout = null;
+}
+<p>Total Users: @TotalUsers</p>
+<table class="table table-bordered table-hover table-striped table-info">
+    <thead>
+        <tr class="bg-warning">
+            <th>Sr#</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Password</th>
+        </tr>
+     
+    </thead>
+    <tbody>
+        @foreach (var item in OlistUsers)
+        {
+            counter++;
+            <tr>
+                <td><strong>@counter</strong></td>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Password</td>
+            </tr>
+        }
+    </tbody>
+</table>
