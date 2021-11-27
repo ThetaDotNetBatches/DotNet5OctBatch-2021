@@ -13,11 +13,13 @@ namespace DotNet5OctBatch_2021.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly POSContext _dbcontext;
+        public HomeController(ILogger<HomeController> logger, POSContext dbcontext)
         {
             _logger = logger;
+            _dbcontext = dbcontext;
         }
-
+        #region Manual Work
         public IActionResult Index()
         {
             try
@@ -69,7 +71,7 @@ namespace DotNet5OctBatch_2021.Controllers
                 // log in error
                 ViewBag.ErroMesasge = "Some Error Occured. Please Try Again!";
             }
-           
+
             return View();
         }
 
@@ -95,7 +97,7 @@ namespace DotNet5OctBatch_2021.Controllers
             oListUsers.Add(oUser3);
             oListUsers.Add(oUser1);
             oListUsers.Add(oUser2);
-       
+
             ViewBag.UsersList = oListUsers;
             return View();
         }
@@ -113,12 +115,12 @@ namespace DotNet5OctBatch_2021.Controllers
             Users ObjUser = new Users();
             try
             {
-               
+
                 ObjUser.Id = 1;
                 ObjUser.Name = "ASP COre Class";
                 ObjUser.UserName = "theta";
                 ObjUser.Password = "123";
-                    
+
             }
             catch (Exception ex)
             {
@@ -126,5 +128,34 @@ namespace DotNet5OctBatch_2021.Controllers
             }
             return View(ObjUser);
         }
+        #endregion
+        #region Categories Management
+        [HttpGet]
+        public IActionResult AddCategory()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddCategory(ItemCategory itemcat)
+        {
+            try
+            {
+                _dbcontext.ItemCategories.Add(itemcat);
+                _dbcontext.SaveChanges();
+                ViewBag.SMessage = "Data Saved Successfully";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.EMessage = "Some Error Occured. Please try again";
+            }
+
+            return View();
+        }
+        public IActionResult AllCategories()
+        {
+            IList<ItemCategory> lCategories = _dbcontext.ItemCategories.ToList();
+            return View(lCategories);
+        }
+        #endregion
     }
 }
