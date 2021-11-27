@@ -20,31 +20,56 @@ namespace DotNet5OctBatch_2021.Controllers
 
         public IActionResult Index()
         {
-            Users oUser1 = new Users();
-            oUser1.Id = 1;
-            oUser1.Name = "ABC";
-            oUser1.Password = "TEST";
-            //  ViewBag.User1 = oUser1;
-
-            Users oUser2 = new Users
+            try
             {
-                Id = 2,
-                Name = "XYZ",
-                Password = "123"
-            };
+                Users oUser1 = new Users();
+                oUser1.Id = 1;
+                oUser1.Name = "ABC";
+                oUser1.Password = "TEST";
+                //  ViewBag.User1 = oUser1;
 
-            Users oUser3 = new Users
+                Users oUser2 = new Users
+                {
+                    Id = 2,
+                    Name = "XYZ",
+                    Password = "123"
+                };
+
+                Users oUser3 = new Users
+                {
+                    Id = 3,
+                    Name = "XYZ-ABC",
+                    Password = "1234556"
+                };
+                // ViewBag.OUser2 = oUser2;
+                IList<Users> oListUsers = new List<Users>();
+                oListUsers.Add(oUser1);
+                oListUsers.Add(oUser2);
+                oListUsers.Add(oUser3);
+                ViewBag.UsersList = oListUsers;
+                try
+                {
+
+                    try
+                    {
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+            catch (Exception ex)
             {
-                Id = 3,
-                Name = "XYZ-ABC",
-                Password = "1234556"
-            };
-           // ViewBag.OUser2 = oUser2;
-            IList<Users> oListUsers = new List<Users>();
-            oListUsers.Add(oUser1);
-            oListUsers.Add(oUser2);
-            oListUsers.Add(oUser3);
-            ViewBag.UsersList = oListUsers;
+                // log in error
+                ViewBag.ErroMesasge = "Some Error Occured. Please Try Again!";
+            }
+           
             return View();
         }
 
@@ -82,6 +107,24 @@ namespace DotNet5OctBatch_2021.Controllers
         public IActionResult MyFirstPage()
         {
             return View();
+        }
+        public IActionResult AddUser()
+        {
+            Users ObjUser = new Users();
+            try
+            {
+               
+                ObjUser.Id = 1;
+                ObjUser.Name = "ASP COre Class";
+                ObjUser.UserName = "theta";
+                ObjUser.Password = "123";
+                    
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return View(ObjUser);
         }
     }
 }
