@@ -142,7 +142,10 @@ Lecture-14-Summary  (27 NOV 2021)
 •	List Records
 --------------------------------------------------
 --------------------------------------------------
-
+Lecture-15-Summary  (03 DEC 2021)
+•	Detail View
+•	Edit View
+•	Sections and Javascript Overview
 
 
 

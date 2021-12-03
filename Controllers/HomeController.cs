@@ -1,5 +1,6 @@
 ﻿using DotNet5OctBatch_2021.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -155,6 +156,54 @@ namespace DotNet5OctBatch_2021.Controllers
         {
             IList<ItemCategory> lCategories = _dbcontext.ItemCategories.ToList();
             return View(lCategories);
+        }
+        [HttpGet]
+        public IActionResult DetailCategory(int id)
+        {
+            try
+            {
+                ItemCategory ObjItemCategory = _dbcontext.ItemCategories.Find(id);
+                return View(ObjItemCategory);
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return View();
+        }
+        [HttpGet]
+        public IActionResult EditCategory(int id)
+        {
+            try
+            {
+                ViewBag.SMeesage = TempData["SMessage"];
+                ViewBag.EMessage = TempData["EMessage"];
+                ItemCategory ObjItemCategory = _dbcontext.ItemCategories.Find(id);
+                return View(ObjItemCategory);
+            }
+            catch (Exception)
+            {
+                return View();
+            }
+          
+        }
+        [HttpPost]
+        public IActionResult EditCategory(ItemCategory ObjCategory)
+        {
+            try
+            {
+                _dbcontext.ItemCategories.Attach(ObjCategory);
+                var entry = _dbcontext.Entry(ObjCategory);
+                entry.State = EntityState.Modified;
+                _dbcontext.SaveChanges();
+                TempData["SMessage"] = "Data Updated Successfully";
+            }
+            catch(Exception ex)
+            {
+                TempData["EMessage"] = "Some error occured. please try again";
+            }
+           
+            return RedirectToAction(nameof(HomeController.EditCategory), new { ObjCategory.Id });
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 using DotNet5OctBatch_2021.Data;
+using DotNet5OctBatch_2021.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,13 +28,13 @@ namespace DotNet5OctBatch_2021
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<POSContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("CS")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<POSContext>();
             services.AddControllersWithViews();
         }
 
@@ -63,7 +64,7 @@ namespace DotNet5OctBatch_2021
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=AddCategory}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

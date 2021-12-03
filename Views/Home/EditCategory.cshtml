@@ -1,25 +1,18 @@
 ﻿@model DotNet5OctBatch_2021.Models.ItemCategory
 
 @{
-    ViewData["Title"] = "AddCategory";
+    ViewData["Title"] = "EditCategory";
 }
 
-<h1>AddCategory</h1>
+<h1>EditCategory</h1>
 
 <h4>ItemCategory</h4>
 <hr />
-@if (ViewBag.SMessage != null)
-{
-    <div class="alert alert-success">@ViewBag.SMessage</div>
-}
-else if (ViewBag.EMessage != null)
-{
-    <div class="alert alert-warning">@ViewBag.EMessage</div>
-}
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddCategory">
+        <form asp-action="EditCategory">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="CatName" class="control-label"></label>
                 <input asp-for="CatName" class="form-control" />
@@ -61,15 +54,14 @@ else if (ViewBag.EMessage != null)
                 <span asp-validation-for="CatLevel" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <input type="reset" value="Reset" class="btn btn-success" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="AllCategories">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
