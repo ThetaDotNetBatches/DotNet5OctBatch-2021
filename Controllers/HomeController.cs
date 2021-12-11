@@ -154,7 +154,14 @@ namespace DotNet5OctBatch_2021.Controllers
         }
         public IActionResult AllCategories()
         {
-            IList<ItemCategory> lCategories = _dbcontext.ItemCategories.ToList();
+            // show level 1 and level 2 categories
+            IList<ItemCategory> lCategories = _dbcontext.ItemCategories.Where(o=> o.CatLevel >=1 && o.CatLevel <=2).ToList();
+            // show all categories except level 1
+            lCategories = _dbcontext.ItemCategories.Where(o => o.CatLevel !=1).ToList();
+            // string ---- show all categories start with alphabet A
+            lCategories = _dbcontext.ItemCategories.Where(o => o.CatName.ToLower().Equals("ABC".ToLower())).ToList();
+            ViewBag.SMeesage = TempData["SMessage"];
+            ViewBag.EMessage = TempData["EMessage"];
             return View(lCategories);
         }
         [HttpGet]
@@ -192,9 +199,10 @@ namespace DotNet5OctBatch_2021.Controllers
         {
             try
             {
-                _dbcontext.ItemCategories.Attach(ObjCategory);
-                var entry = _dbcontext.Entry(ObjCategory);
-                entry.State = EntityState.Modified;
+                //_dbcontext.ItemCategories.Attach(ObjCategory);
+                //var entry = _dbcontext.Entry(ObjCategory);
+                //entry.State = EntityState.Modified;
+                _dbcontext.ItemCategories.Update(ObjCategory);
                 _dbcontext.SaveChanges();
                 TempData["SMessage"] = "Data Updated Successfully";
             }
@@ -204,6 +212,44 @@ namespace DotNet5OctBatch_2021.Controllers
             }
            
             return RedirectToAction(nameof(HomeController.EditCategory), new { ObjCategory.Id });
+        }
+
+        public IActionResult DeleteCategory(int id)
+        {
+            try
+            {
+                var objCat = _dbcontext.ItemCategories.Find(id);
+                if(objCat != null)
+                {
+                    _dbcontext.ItemCategories.Remove(objCat);
+                    _dbcontext.SaveChanges();
+                    TempData["SMessage"] = "Deleted Successfully";
+                }
+                else
+                {
+                    TempData["EMessage"] = "Category not found";
+                }
+            }
+            catch(Exception ex)
+            {
+                TempData["EMessage"] = "Some error occured";
+            }
+            return RedirectToAction(nameof(HomeController.AllCategories));
+        }
+
+        [HttpGet]
+        public IActionResult AllItem()
+        {
+            IList<ViewItems> OListItemWithCategory = (from item in _dbcontext.Items
+                                                      join category in _dbcontext.ItemCategories on item.ItemCategory equals category.Id
+                                                      select new ViewItems
+                                                      {
+                                                          ItemCode = item.ItemCode,
+                                                          ItemName = item.ItemName,
+                                                          CatCode = category.CatCode,
+                                                          CatName = category.CatName,
+                                                      }).ToList();
+            return View(OListItemWithCategory);
         }
         #endregion
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using DotNet5OctBatch_2021.Models;
 
 #nullable disable
 
@@ -101,5 +102,7 @@ namespace DotNet5OctBatch_2021.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<DotNet5OctBatch_2021.Models.ViewItems> ViewItems { get; set; }
     }
 }

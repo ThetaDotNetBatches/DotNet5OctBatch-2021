@@ -7,15 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Home\UsersList.cshtml" />
+    <Content Remove="C:\Users\Touba\.nuget\packages\datatables.net-dt\1.11.3\contentFiles\any\any\wwwroot\css\jquery.dataTables.css" />
+    <Content Remove="C:\Users\Touba\.nuget\packages\datatables.net-dt\1.11.3\contentFiles\any\any\wwwroot\css\jquery.dataTables.min.css" />
+    <Content Remove="Views\Home\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="datatables.net-dt" Version="1.11.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\bootstrap-5.0.2-dist\css\" />
+    <Folder Include="wwwroot\bootstrap-5.0.2-dist\js\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Home\Index.cshtml" />
   </ItemGroup>
 
 </Project>
