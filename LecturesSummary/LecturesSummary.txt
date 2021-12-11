@@ -147,8 +147,12 @@ Lecture-15-Summary  (03 DEC 2021)
 •	Edit View
 •	Sections and Javascript Overview
 
+Lecture-16-Summary  (10 DEC 2021)
+•	off
 
-
+Lecture-17-Summary  (11 DEC 2021)
+•	Joins
+•	Linq
 
 
 
