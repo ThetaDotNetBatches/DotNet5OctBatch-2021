@@ -154,6 +154,13 @@ Lecture-17-Summary  (11 DEC 2021)
 •	Joins
 •	Linq
 
+Lecture-18-Summary  (17 DEC 2021)
+•	Select List
+•	Dropdown
+•	Select2 Library
+•	Direct Join in Detail
+•	Left Join in Detail
+
 
 
 

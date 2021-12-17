@@ -130,6 +130,7 @@ namespace DotNet5OctBatch_2021.Controllers
             return View(ObjUser);
         }
         #endregion
+
         #region Categories Management
         [HttpGet]
         public IActionResult AddCategory()
@@ -155,11 +156,11 @@ namespace DotNet5OctBatch_2021.Controllers
         public IActionResult AllCategories()
         {
             // show level 1 and level 2 categories
-            IList<ItemCategory> lCategories = _dbcontext.ItemCategories.Where(o=> o.CatLevel >=1 && o.CatLevel <=2).ToList();
+          //  IList<ItemCategory> lCategories = _dbcontext.ItemCategories.Where(o=> o.CatLevel >=1 && o.CatLevel <=2).ToList();
             // show all categories except level 1
-            lCategories = _dbcontext.ItemCategories.Where(o => o.CatLevel !=1).ToList();
+          //  lCategories = _dbcontext.ItemCategories.Where(o => o.CatLevel !=1).ToList();
             // string ---- show all categories start with alphabet A
-            lCategories = _dbcontext.ItemCategories.Where(o => o.CatName.ToLower().Equals("ABC".ToLower())).ToList();
+           var lCategories = _dbcontext.ItemCategories.ToList();
             ViewBag.SMeesage = TempData["SMessage"];
             ViewBag.EMessage = TempData["EMessage"];
             return View(lCategories);
@@ -202,6 +203,8 @@ namespace DotNet5OctBatch_2021.Controllers
                 //_dbcontext.ItemCategories.Attach(ObjCategory);
                 //var entry = _dbcontext.Entry(ObjCategory);
                 //entry.State = EntityState.Modified;
+                ObjCategory.ModifyBy = "Theta";
+                ObjCategory.ModifyDate = DateTime.Now;
                 _dbcontext.ItemCategories.Update(ObjCategory);
                 _dbcontext.SaveChanges();
                 TempData["SMessage"] = "Data Updated Successfully";
@@ -237,11 +240,43 @@ namespace DotNet5OctBatch_2021.Controllers
             return RedirectToAction(nameof(HomeController.AllCategories));
         }
 
+        
+        #endregion
+
+        #region item Management 
+        [HttpGet]
+        public IActionResult AddItem()
+        {
+            ViewBag.ListCategories = _dbcontext.ItemCategories.ToList();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddItem(Item oItem)
+        {
+            try
+            {
+                if(oItem.ItemCategory == null)
+                {
+                    oItem.ItemCategory = 0;
+                }
+                oItem.CreatedBy = "Theta";
+                oItem.CreatedDate = DateTime.Now;
+                _dbcontext.Items.Add(oItem);
+                _dbcontext.SaveChanges();
+                ViewBag.SMessage = "Data saved successfully";
+            }
+            catch(Exception ex)
+            {
+                ViewBag.EMessage = "Some Error Occurred";
+            }
+            return View();
+        }
         [HttpGet]
         public IActionResult AllItem()
         {
             IList<ViewItems> OListItemWithCategory = (from item in _dbcontext.Items
-                                                      join category in _dbcontext.ItemCategories on item.ItemCategory equals category.Id
+                                                     // join category in _dbcontext.ItemCategories on item.ItemCategory equals category.Id
+                                                     from category in _dbcontext.ItemCategories.Where(c => c.Id == item.ItemCategory ).DefaultIfEmpty()
                                                       select new ViewItems
                                                       {
                                                           ItemCode = item.ItemCode,

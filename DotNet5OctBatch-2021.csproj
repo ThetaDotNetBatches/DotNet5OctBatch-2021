@@ -31,4 +31,13 @@
     <None Include="Views\Home\Index.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="C:\Users\Touba\.nuget\packages\datatables.net-dt\1.11.3\contentFiles\any\any\wwwroot\js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\js\JavaScript.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
