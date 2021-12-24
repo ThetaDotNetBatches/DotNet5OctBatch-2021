@@ -283,8 +283,23 @@ namespace DotNet5OctBatch_2021.Controllers
                                                           ItemName = item.ItemName,
                                                           CatCode = category.CatCode,
                                                           CatName = category.CatName,
+                                                          ItemQuantity = (double?) item.ItemQuantity ?? 0,
                                                       }).ToList();
             return View(OListItemWithCategory);
+        }
+        #endregion
+
+        #region Sales Management
+        [HttpGet]
+        public ActionResult AddSale()
+        {
+            ViewBag.ListItems = _dbcontext.Items.ToList();
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddSale(ViewSales objDate)
+        {
+            return View();
         }
         #endregion
     }

@@ -20,15 +20,16 @@ namespace DotNet5OctBatch_2021.Models
 
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<ItemCategory> ItemCategories { get; set; }
-
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("Server=THETATEAM12\\SQLEXPRESS01;Database=POS;Trusted_Connection=True; User ID=sa; Password=admin;");
-//            }
-//        }
+        public virtual DbSet<Sale> Sale { get; set; }
+        public virtual DbSet<SaleLine> SaleLine { get; set; }
+        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //        {
+        //            if (!optionsBuilder.IsConfigured)
+        //            {
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        //                optionsBuilder.UseSqlServer("Server=THETATEAM12\\SQLEXPRESS01;Database=POS;Trusted_Connection=True; User ID=sa; Password=admin;");
+        //            }
+        //        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
