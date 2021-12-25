@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -293,13 +295,47 @@ namespace DotNet5OctBatch_2021.Controllers
         [HttpGet]
         public ActionResult AddSale()
         {
+            ViewBag.SMeesage = TempData["SMessage"];
+            ViewBag.EMessage = TempData["EMessage"];
             ViewBag.ListItems = _dbcontext.Items.ToList();
             return View();
         }
         [HttpPost]
-        public ActionResult AddSale(ViewSales objDate)
+        public ActionResult AddSale(string objData)
         {
-            return View();
+            try
+            {
+                ViewSales objMain = JsonConvert.DeserializeObject<ViewSales>(objData, new IsoDateTimeConverter());
+                var exSale = _dbcontext.Sale.OrderByDescending(m => m.Id).FirstOrDefault();
+                var serial = 0;
+                if (exSale != null)
+                {
+                    serial = exSale.Serial + 1;
+                }
+                objMain.objSale.Serial = serial;
+                objMain.objSale.Code = "Sale/" + objMain.objSale.SaleDate.Month.ToString() + "/" + objMain.objSale.SaleDate.Year.ToString() + "/" + serial.ToString("000");
+
+                objMain.objSale.CreatedBy = "System";
+                objMain.objSale.CreatedDate = DateTime.Now;
+                _dbcontext.Sale.Add(objMain.objSale);
+                _dbcontext.SaveChanges();
+                foreach (SaleLine item in objMain.ListSaleLine)
+                {
+                    var saleid = objMain.objSale.Id;
+                    item.SaleId = saleid;
+                    item.CreatedBy = "System";
+                    item.CreatedDate = DateTime.Now;
+                    _dbcontext.SaleLine.Add(item);
+                    _dbcontext.SaveChanges();
+                }
+                TempData["SMessage"] = "Data Updated Successfully";
+            }
+            catch(Exception ex)
+            {
+                TempData["EMessage"] = "Some error occured. please try again";
+            }
+
+            return RedirectToAction(nameof(HomeController.AddSale));
         }
         #endregion
     }

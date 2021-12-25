@@ -14,5 +14,9 @@ namespace DotNet5OctBatch_2021.Models
         public DateTime? CreatedDate { get; set; }
         public string ModifyBy { get; set; }
         public DateTime? ModifyDate { get; set; }
+
+        public decimal Price { get; set; }
+
+        public decimal Qty { get; set; }
     }
 }

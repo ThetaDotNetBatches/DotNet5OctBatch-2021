@@ -161,10 +161,15 @@ Lecture-18-Summary  (17 DEC 2021)
 •	Direct Join in Detail
 •	Left Join in Detail
 
-Lecture-19-Summary  (23 DEC 2021)
+Lecture-19-Summary  (24 DEC 2021)
 •	Sale / Sale Line table
 •	add more / append
 •	jquery functions
+
+Lecture-20-Summary  (25 DEC 2021)
+•	JSON
+•	Serialize / Descerializa
+•	Sale Flow
 
 
 

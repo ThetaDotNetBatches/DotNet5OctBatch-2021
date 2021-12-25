@@ -15,10 +15,10 @@ namespace DotNet5OctBatch_2021.Models
         public string ModifyBy { get; set; }
         public DateTime? ModifyDate { get; set; }
 
-        public DateTime? SaleDate { get; set; }
+        public DateTime SaleDate { get; set; }
 
-        public decimal Qty { get; set; }
+        //public decimal Qty { get; set; }
 
-        public decimal Price { get; set; }
+        //public decimal Price { get; set; }
     }
 }
