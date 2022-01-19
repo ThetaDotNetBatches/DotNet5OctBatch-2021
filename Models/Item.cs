@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -22,5 +24,8 @@ namespace DotNet5OctBatch_2021.Models
         public DateTime? CreatedDate { get; set; }
         public string ModifyBy { get; set; }
         public DateTime? ModifyDate { get; set; }
+       [NotMapped]
+        public IFormFile ImageFile { get; set; }
+        public string Image { get; set; }
     }
 }

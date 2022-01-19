@@ -12,19 +12,19 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddItem">
+        <form asp-action="AddItem" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 @Html.DropDownListFor(model => model.ItemCategory, AllCategories, "Choose a category", new { @class = "form-control inout-sm" })
                 @*<select class="form-control input-sm" name="ItemCategory" asp-for="ItemCategory">
-                       <option>Choose a category</option>
-                        @foreach (var cat in Listcategories)
-                        {
-                            <option value="@cat.Id">@(cat.CatName + " (" + cat.CatCode + ")")</option>
-                        }
-                    </select>*@
+               <option>Choose a category</option>
+                @foreach (var cat in Listcategories)
+                {
+                    <option value="@cat.Id">@(cat.CatName + " (" + cat.CatCode + ")")</option>
+                }
+            </select>*@
                 @*<label asp-for="ItemCategory" class="control-label"></label>
-                    <input asp-for="ItemCategory" class="form-control" />*@
+            <input asp-for="ItemCategory" class="form-control" />*@
                 <span asp-validation-for="ItemCategory" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -72,26 +72,31 @@
                 <input asp-for="OpeningStockDate" class="form-control" />
                 <span asp-validation-for="OpeningStockDate" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" type="file" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
             @*<div class="form-group">
-                    <label asp-for="CreatedBy" class="control-label"></label>
-                    <input asp-for="CreatedBy" class="form-control" />
-                    <span asp-validation-for="CreatedBy" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CreatedDate" class="control-label"></label>
-                    <input asp-for="CreatedDate" class="form-control" />
-                    <span asp-validation-for="CreatedDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ModifyBy" class="control-label"></label>
-                    <input asp-for="ModifyBy" class="form-control" />
-                    <span asp-validation-for="ModifyBy" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ModifyDate" class="control-label"></label>
-                    <input asp-for="ModifyDate" class="form-control" />
-                    <span asp-validation-for="ModifyDate" class="text-danger"></span>
-                </div>*@
+            <label asp-for="CreatedBy" class="control-label"></label>
+            <input asp-for="CreatedBy" class="form-control" />
+            <span asp-validation-for="CreatedBy" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CreatedDate" class="control-label"></label>
+            <input asp-for="CreatedDate" class="form-control" />
+            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ModifyBy" class="control-label"></label>
+            <input asp-for="ModifyBy" class="form-control" />
+            <span asp-validation-for="ModifyBy" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ModifyDate" class="control-label"></label>
+            <input asp-for="ModifyDate" class="form-control" />
+            <span asp-validation-for="ModifyDate" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

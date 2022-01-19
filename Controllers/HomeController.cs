@@ -1,26 +1,26 @@
 ﻿using DotNet5OctBatch_2021.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DotNet5OctBatch_2021.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        private readonly IWebHostEnvironment webHostEnvironment;
         private readonly POSContext _dbcontext;
-        public HomeController(ILogger<HomeController> logger, POSContext dbcontext)
+        public HomeController(ILogger<HomeController> logger, POSContext dbcontext, IWebHostEnvironment hostEnvironment)
         {
             _logger = logger;
             _dbcontext = dbcontext;
+            webHostEnvironment = hostEnvironment;
         }
         #region Manual Work
         public IActionResult Index()
@@ -261,10 +261,12 @@ namespace DotNet5OctBatch_2021.Controllers
                 {
                     oItem.ItemCategory = 0;
                 }
+                oItem.Image = UploadedFile(oItem);
                 oItem.CreatedBy = "Theta";
                 oItem.CreatedDate = DateTime.Now;
-                _dbcontext.Items.Add(oItem);
-                _dbcontext.SaveChanges();
+
+                //_dbcontext.Items.Add(oItem);
+                //_dbcontext.SaveChanges();
                 ViewBag.SMessage = "Data saved successfully";
             }
             catch(Exception ex)
@@ -321,11 +323,18 @@ namespace DotNet5OctBatch_2021.Controllers
                 _dbcontext.SaveChanges();
                 foreach (SaleLine item in objMain.ListSaleLine)
                 {
+                  
                     var saleid = objMain.objSale.Id;
                     item.SaleId = saleid;
                     item.CreatedBy = "System";
                     item.CreatedDate = DateTime.Now;
                     _dbcontext.SaleLine.Add(item);
+                    _dbcontext.SaveChanges();
+                    // Sale stock update (minus)
+                    // Purchase stock update (plus)
+                    Item objItem = _dbcontext.Items.Find(item.ItemId);
+                    objItem.ItemQuantity = objItem.ItemQuantity - (double)item.Qty;
+                    _dbcontext.Items.Update(objItem);
                     _dbcontext.SaveChanges();
                 }
                 TempData["SMessage"] = "Data Updated Successfully";
@@ -337,6 +346,53 @@ namespace DotNet5OctBatch_2021.Controllers
 
             return RedirectToAction(nameof(HomeController.AddSale));
         }
+
+        [HttpPost]
+        public JsonResult ReturnItemDetail(int ItemId)
+        {
+            Item objItem = _dbcontext.Items.Find(ItemId);
+            //bool Result = false;
+            //if(objItem.ItemQuantity > 0)
+            //{
+            //    Result = true;
+            //}
+            //var jsonObj = new
+            //{
+            //    Qty = objItem.ItemQuantity,
+            //};
+            return Json(objItem);
+            //return Json(JsonObj, JsonRequestBehavior.AllowGet);
+        }
+        #region all sales
+        public ActionResult AllSales()
+        {
+            IList<ViewSales> ListSales = (from sale in _dbcontext.Sale
+                                          from saleline in _dbcontext.SaleLine.Where(m => m.SaleId == sale.Id).DefaultIfEmpty()
+                                          from item in _dbcontext.Items.Where(m=> m.Id == saleline.ItemId).DefaultIfEmpty()
+                                          select new ViewSales
+                                          {
+
+                                              // properties
+                                          }).ToList();
+            return View();
+        }
         #endregion
+        #endregion
+        private string UploadedFile(Item model)
+        {
+            string uniqueFileName = null;
+
+            if (model.ImageFile != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                     model.ImageFile.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
     }
 }
